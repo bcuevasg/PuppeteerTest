@@ -64,8 +64,6 @@ describe('Example Test Suite', () => {
   it('Expected number of ads on the page', async () => {
     // Enable request interception
     await page.setRequestInterception(true);
-    // Array to store the ads info to identify
-    const adRequests = [];
 
     // Listen for network requests
     page.on('request', (request) => {
