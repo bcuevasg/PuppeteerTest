@@ -126,7 +126,6 @@ describe('Example Test Suite', () => {
     //For that will check the resposnses to check the word "Malware" on it
     for (const request of adRequests) {
       const response = await request.response();
-
       const responseBody = await response.text();
 
      // Variable that will store the result of checking if response has Malware
@@ -140,7 +139,6 @@ describe('Example Test Suite', () => {
   });
 
   it('Check "Spam" ads on page', async () => {
-
     //For that will check the resposnses to check the word "Spam" on it
     for (const request of adRequests) {
       const response = await request.response();
