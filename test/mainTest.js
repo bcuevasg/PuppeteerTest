@@ -5,6 +5,7 @@ const { expect } = chai;
 describe('Example Test Suite', () => {
   let browser;
   let page;
+  let adRequests = []; //This array will store requests done to check responses on Malware and spam test cases
 
   // Run before all tests
   before(async () => {
@@ -100,8 +101,6 @@ describe('Example Test Suite', () => {
   it('Check "Malware" word for Ads on page', async () => {
     // Enable request interception
     await page.setRequestInterception(true);
-    // Array to store the ads info to identify
-    const adRequests = [];
 
     // Listen for network requests
     page.on('request', (request) => {
@@ -141,31 +140,6 @@ describe('Example Test Suite', () => {
   });
 
   it('Check "Spam" ads on page', async () => {
-    // Enable request interception
-    await page.setRequestInterception(true);
-    // Array to store the ads info to identify
-    const adRequests = [];
-
-    // Listen for network requests
-    page.on('request', (request) => {
-      // Inspect the URL, headers, or other properties to identify ad requests
-      if (request.url().includes('https://securepubads.g.doubleclick.net')) {
-        adRequests.push(request);
-      }
-      request.continue();
-    });
-
-    // Reload page to work with this case forbes
-    await page.goto('https://www.forbes.com/');
-
-    // Wait for the page to load and move to the bottom of the page
-    new Promise(r => setTimeout(r, 5000));
-    await page.evaluate(() => {
-      window.scrollBy(0, document.body.scrollHeight);
-    });
-
-    // Turn off the  request interception so the browsing is normal
-    await page.setRequestInterception(false);
 
     //For that will check the resposnses to check the word "Spam" on it
     for (const request of adRequests) {
@@ -178,8 +152,6 @@ describe('Example Test Suite', () => {
       expect(isSpam, 'Ad content contains spam').to.be.false;
     }
   });
-
-
 });
 
 function checkForMalware(content) {
